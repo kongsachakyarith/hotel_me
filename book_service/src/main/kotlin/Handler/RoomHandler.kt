@@ -2,6 +2,7 @@ package org.kshrd.cloud.Handler
 
 import org.kshrd.cloud.model.DTO.request.RoomRequestDto
 import org.kshrd.cloud.Service.RoomService
+import org.kshrd.cloud.model.DTO.response.ApiResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
@@ -13,15 +14,33 @@ import kotlin.jvm.java
 @Component
 class RoomHandler(private val roomService: RoomService) {
 
-    /*fun getAllRooms(request: ServerRequest): Mono<ServerResponse> {
-        return ServerResponse.ok()
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(roomService.findAll(), Room::class.java)
-    }*/
+    fun getAll(request: ServerRequest): Mono<ServerResponse> {
+        return roomService.getAll()
+            .collectList()
+            .map { rooms ->
+                ApiResponse(
+                    status = "success",
+                    message = "Rooms retrieved successfully",
+                    data = rooms
+                )
+            }
+            .flatMap { response ->
+                ServerResponse.ok()
+                    .contentType((MediaType.APPLICATION_JSON))
+                    .bodyValue(response)
+            }
+    }
 
     fun getRoomById(request: ServerRequest): Mono<ServerResponse> {
         val roomId =  request.pathVariable("id").toLong()
         return roomService.getRoomById(roomId)
+            .map { roomId ->
+                ApiResponse(
+                    status = "success",
+                    message = "Rooms retrieved successfully",
+                    data = roomId
+                )
+            }
             .flatMap { room ->
                 ServerResponse.ok()
                     .contentType(MediaType.APPLICATION_JSON)

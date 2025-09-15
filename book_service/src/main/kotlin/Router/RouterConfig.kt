@@ -7,12 +7,12 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
-import io.swagger.v3.oas.annotations.parameters.RequestBody
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.kshrd.cloud.Handler.RoomHandler
 import org.kshrd.cloud.model.DTO.request.RoomRequestDto
 import org.kshrd.cloud.model.DTO.response.ErrorResponse
 import org.kshrd.cloud.model.DTO.response.RoomResponseDto
+import org.kshrd.cloud.model.mapper.RoomSummaryDto
 import org.springdoc.core.annotations.RouterOperation
 import org.springdoc.core.annotations.RouterOperations
 import org.springframework.web.bind.annotation.RequestMethod
@@ -109,6 +109,28 @@ open class RouterConfig {
                     )
                 ]
             )
+        ),
+        RouterOperation(
+            path = "/api/v1/rooms",
+            method = [RequestMethod.GET],
+            beanClass = RoomHandler::class,
+            beanMethod = "getAll",
+            operation = Operation(
+                operationId = "getAllRooms",
+                tags = ["Room Management"],
+                summary = "Get all rooms",
+                description = "Retrieves a list of all rooms (summary view)",
+                responses = [
+                    ApiResponse(
+                        responseCode = "200",
+                        description = "Rooms retrieved successfully",
+                        content = [Content(
+                            mediaType = "application/json",
+                            schema = Schema(type = "array", implementation = RoomSummaryDto::class)
+                        )]
+                    )
+                ]
+            )
         )
     )
     fun roomRoutes(roomHandler: RoomHandler): RouterFunction<ServerResponse> {
@@ -116,6 +138,7 @@ open class RouterConfig {
             .path("/api/v1/rooms") { builder ->
                 builder
                     .GET("/{id}", roomHandler::getRoomById)
+                    .GET("", roomHandler::getAll)
                     .POST("", roomHandler::createRoom)
             }
             .build()
