@@ -1,7 +1,6 @@
 package org.kshrd.cloud.model.DTO.response
 
 import java.math.BigDecimal
-import java.time.LocalDateTime
 
 data class RoomResponseDto(
     val roomId: Long,
@@ -10,3 +9,9 @@ data class RoomResponseDto(
     val pricePerNight: BigDecimal,
 
     )
+
+data class ApiResponse<T>(
+    val status: String,
+    val message: String,
+    val data: T?
+)

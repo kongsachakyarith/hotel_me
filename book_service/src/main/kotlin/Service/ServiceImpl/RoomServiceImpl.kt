@@ -7,8 +7,11 @@ import org.kshrd.cloud.Service.RoomService
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import org.kshrd.cloud.Enum.RoomError
+import org.kshrd.cloud.model.mapper.RoomSummaryDto
 import org.kshrd.cloud.model.mapper.toEntity
 import org.kshrd.cloud.model.mapper.toResponseDto
+import org.kshrd.cloud.model.mapper.toSummaryDto
+import reactor.core.publisher.Flux
 
 @Service
 class RoomServiceImpl(private val roomRepository: RoomRepository) : RoomService{
@@ -24,5 +27,11 @@ class RoomServiceImpl(private val roomRepository: RoomRepository) : RoomService{
         return roomRepository.save(entity)
             .map { it.toResponseDto() }
     }
+
+    override fun getAll(): Flux<RoomSummaryDto> {
+        return roomRepository.findAll()
+            .map { it.toSummaryDto() }
+    }
+
 
 }
