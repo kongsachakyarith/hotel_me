@@ -1,4 +1,4 @@
-package org.kshrd.cloud.Entity
+package org.kshrd.cloud.model.Entity
 
 import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDateTime

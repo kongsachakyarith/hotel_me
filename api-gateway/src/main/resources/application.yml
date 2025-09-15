@@ -1,0 +1,10 @@
+server:
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: Booking Service
+        url: http://localhost:8082/v3/api-docs
+      - name: User Service
+        url: http://localhost:8081/v3/api-docs
