@@ -16,7 +16,7 @@ class OpenApiRouterConfig {
         return OpenAPI()
             .info(
                 Info()
-                    .title("Hotel Room Koh Sdach Management API")
+                    .title("Hotel Room Management API")
                     .description("RESTful API for managing hotel rooms using Spring WebFlux and R2DBC")
                     .version("1.0.0")
                     .contact(
