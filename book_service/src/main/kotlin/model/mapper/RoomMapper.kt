@@ -6,7 +6,7 @@ import org.kshrd.cloud.model.Entity.Room
 import java.math.BigDecimal
 
 
-fun RoomRequestDto.toEntity(): Room {
+fun RoomRequestDto.toEntity() : Room {
     return Room(
         roomName = this.roomName,
         roomType = this.roomType,
